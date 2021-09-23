@@ -13,11 +13,10 @@ export class UsersService {
   create(createUserDto: CreateUserDto) {
     const createdUser = new this.userModel(createUserDto);
     createdUser.save();
-    return 'This action adds a new user';
   }
 
   findAll() {
-    return `This action returns all users`;
+    return this.userModel.find().exec();
   }
 
   findOne(id: number) {
