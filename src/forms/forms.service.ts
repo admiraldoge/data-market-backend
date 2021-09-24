@@ -21,6 +21,7 @@ export class FormsService {
   }
 
   findOne(id: string) {
+    console.log('Looking for form: ',id);
     return this.formModel.findById(id).exec();
   }
 

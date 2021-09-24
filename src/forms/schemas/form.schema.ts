@@ -29,6 +29,9 @@ export class Form {
 
   @Prop()
   deadlineTimeStamp: string;
+
+  @Prop()
+  isCompleted: boolean;
 }
 
 export const FormSchema = SchemaFactory.createForClass(Form);
