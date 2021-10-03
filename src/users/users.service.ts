@@ -15,8 +15,15 @@ export class UsersService {
     createdUser.save();
   }
 
-  findAll() {
-    return this.userModel.find().exec();
+  async findAll(page: number, limit: number) {
+    const items = await this.userModel
+      .find()
+      .skip(limit * (page - 1)) // we will not retrieve all records, but will skip first 'n' records
+      .limit(limit) // will limit/restrict the number of records to display
+      .exec();
+    const totalDocuments = await this.userModel.countDocuments();
+    const res = { totalDocuments, items, page, limit };
+    return res;
   }
 
   findOne(id: number) {
