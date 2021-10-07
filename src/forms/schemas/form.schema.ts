@@ -1,25 +1,27 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId } from 'mongoose';
-import {privacitySchema} from '../../schemas/publicSchemas';
+import { ImageSchema, imageSchema } from '../../schemas/ImageSchema';
+import { StringSchema, stringSchema } from '../../schemas/StringSchema';
+import { ArraySchema, arraySchema } from "../../schemas/ArraySchema";
 
 export type FormDocument = Form & Document;
 
 @Schema()
 export class Form {
-  @Prop()
-  name: string;
+  @Prop({ type: stringSchema })
+  name: StringSchema;
 
   @Prop()
-  creationTimeStamp: string;
+  _creationTimeStamp: string;
 
   @Prop()
-  lastUpdateTimeStamp: string;
+  _lastUpdateTimeStamp: string;
 
-  @Prop()
-  thumbnail: string;
+  @Prop({ type: imageSchema })
+  thumbnail: ImageSchema;
 
-  @Prop()
-  fields: [];
+  @Prop({ type: arraySchema })
+  fields: ArraySchema;
 
   @Prop()
   tags: [];

@@ -24,7 +24,8 @@ export class FormsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFormDto: UpdateFormDto) {
-    return this.formsService.update(+id, updateFormDto);
+    console.log('Patch : ', updateFormDto);
+    return this.formsService.update(id, updateFormDto);
   }
 
   @Delete(':id')

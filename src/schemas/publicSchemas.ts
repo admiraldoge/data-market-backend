@@ -10,3 +10,9 @@ export const privacitySchema = new mongoose.Schema({
     required: false
   }
 });
+
+export const ImageSchema = new mongoose.Schema({
+  alt: String,
+  src: String,
+  mimeType: String,
+});

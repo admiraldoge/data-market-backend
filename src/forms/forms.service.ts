@@ -21,11 +21,20 @@ export class FormsService {
   }
 
   findOne(id: string) {
-    console.log('Looking for form: ',id);
+    //console.log('Looking for form: ',id);
     return this.formModel.findById(id).exec();
   }
 
-  update(id: number, updateFormDto: UpdateFormDto) {
+  update(id: string, updateFormDto: UpdateFormDto) {
+    console.log('Updating document: ', id);
+    console.log('document: ', updateFormDto);
+    Reflect.deleteProperty(updateFormDto, '_id');
+    const updateRequest = await this.formModel.findOneAndUpdate(
+      { _id: id },
+      updateFormDto,
+      { new: true },
+    );
+    console.log('Update request: ', updateRequest);
     return `This action updates a #${id} form`;
   }
 

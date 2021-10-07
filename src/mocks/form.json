@@ -1,0 +1,83 @@
+{
+  "tags" : [],
+  "fields" : {
+    "_template": "array",
+    "_templateName": "Campos del formulario",
+    "_itemTemplates": ["stringInput"],
+    "expandable": true,
+    "items": [
+      {
+        "_template" : "stringInput",
+        "id" : "asdadsasd",
+        "label" : {
+          "_template": "string",
+          "_templateName": "Pregunta",
+          "value" : "label 34"
+        },
+        "placeholder" : {
+          "_template": "string",
+          "_templateName": "Placeholder",
+          "value" : "placeholder ranom"
+        }
+      },
+      {
+        "_template" : "checkBoxInput",
+        "id" : "34141sdf12312sqwsd3daasdasd",
+        "label" : {
+          "_template": "string",
+          "_templateName": "Pregunta",
+          "value" : "Escoje multuples opciones"
+        },
+        "options": {
+          "_template": "array",
+          "_templateName": "Opciones",
+          "_itemTemplates": [
+            "string"
+          ],
+          "expandable": true,
+          "items": [
+            {
+              "_template": "string",
+              "_templateName": "0",
+              "value" : "Option1"
+            },
+            {
+              "_template": "string",
+              "_templateName": "1",
+              "value" : "Option2"
+            },
+            {
+              "_template": "string",
+              "_templateName": "2",
+              "value" : "Option2"
+            },
+            {
+              "_template": "string",
+              "_templateName": "3",
+              "value" : "Option2"
+            },
+            {
+              "_template": "string",
+              "_templateName": "4",
+              "value" : "Option2"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "name" : {
+    "_template": "string",
+    "_templateName": "Nombre del formulario",
+    "value": "name of form"
+  },
+  "thumbnail": {
+    "_template": "image",
+    "_templateName": "Imagen del formulario",
+    "src": "https://cdn1.dotesports.com/wp-content/uploads/2019/09/28180949/8eaf8e7803138282110a35e63effe900-e1624670401850.png",
+    "alt": "beast coast image",
+    "mimeType": "png"
+  },
+  "__v" : 0,
+  "_isCompleted" : false
+}
