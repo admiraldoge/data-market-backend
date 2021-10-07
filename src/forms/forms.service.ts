@@ -25,7 +25,7 @@ export class FormsService {
     return this.formModel.findById(id).exec();
   }
 
-  update(id: string, updateFormDto: UpdateFormDto) {
+  async update(id: string, updateFormDto: UpdateFormDto) {
     console.log('Updating document: ', id);
     console.log('document: ', updateFormDto);
     Reflect.deleteProperty(updateFormDto, '_id');
