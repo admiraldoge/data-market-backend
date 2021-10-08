@@ -24,6 +24,9 @@ export class Collector {
 
   @Prop()
   deadline: string;
+
+  @Prop()
+  public: boolean;
 }
 
 export const CollectorSchema = SchemaFactory.createForClass(Collector);

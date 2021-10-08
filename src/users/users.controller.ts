@@ -43,7 +43,7 @@ export class UsersController {
         credentials,
       );
       console.log('Base response', baseResponse);
-      res.cookie('accessToken', 'a1m2a3n4d5a', {
+      res.cookie('authToken', 'a1m2a3n4d5a', {
         expires: new Date(new Date().getTime() + 30 * 1000),
         httpOnly: true,
       });
