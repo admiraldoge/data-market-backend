@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { FormsModule } from './forms/forms.module';
 import { CompaniesModule } from './companies/companies.module';
 import { CollectorsModule } from './collectors/collectors.module';
+import { SubmissionsModule } from './submissions/submissions.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CollectorsModule } from './collectors/collectors.module';
     FormsModule,
     CompaniesModule,
     CollectorsModule,
+    SubmissionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
