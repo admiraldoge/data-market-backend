@@ -9,8 +9,19 @@ export class CollectorsController {
   constructor(private readonly collectorsService: CollectorsService) {}
 
   @Post()
-  create(@Body() createCollectorDto: CreateCollectorDto) {
-    return this.collectorsService.create(createCollectorDto);
+  async create(@Body() createCollectorDto: CreateCollectorDto) {
+    const baseResponse = newBaseResponse();
+    try {
+      baseResponse.data = await this.collectorsService.create(
+        createCollectorDto,
+      );
+    } catch (error) {
+      baseResponse.data = null;
+      baseResponse.success = false;
+      baseResponse.message = error.message;
+    } finally {
+      return baseResponse;
+    }
   }
 
   @Get()

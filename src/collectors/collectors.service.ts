@@ -21,7 +21,7 @@ export class CollectorsService {
   create(createCollectorDto: CreateCollectorDto) {
     const entity = new this.collectorModel(createCollectorDto);
     entity.save();
-    return 'This action adds a new collector';
+    return entity;
   }
 
   findAll() {
