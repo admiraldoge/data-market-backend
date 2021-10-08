@@ -6,7 +6,9 @@ import { ArraySchema, arraySchema } from "../../schemas/ArraySchema";
 
 export type FormDocument = Form & Document;
 
-@Schema()
+@Schema({
+  timestamps: true,
+})
 export class Form {
   @Prop({ type: stringSchema })
   name: StringSchema;
@@ -25,6 +27,9 @@ export class Form {
 
   @Prop()
   tags: [];
+
+  @Prop()
+  shareUrls: [];
 
   @Prop()
   creatorId: string;

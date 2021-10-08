@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { FormsModule } from './forms/forms.module';
 import { CompaniesModule } from './companies/companies.module';
+import { CollectorsModule } from './collectors/collectors.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CompaniesModule } from './companies/companies.module';
     UsersModule,
     FormsModule,
     CompaniesModule,
+    CollectorsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
