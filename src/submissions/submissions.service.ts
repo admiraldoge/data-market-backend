@@ -13,6 +13,7 @@ export class SubmissionsService {
   ) {}
 
   create(createSubmissionDto: CreateSubmissionDto) {
+    console.log('Creating submission: ', createSubmissionDto);
     const entity = new this.submissionModel(createSubmissionDto);
     entity.save();
     return 'This action adds a new submission';

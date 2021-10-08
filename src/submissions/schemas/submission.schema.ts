@@ -10,8 +10,8 @@ export type SubmissionDocument = Submission & Document;
   timestamps: true,
 })
 export class Submission {
-  @Prop()
-  data: string;
+  @Prop({ type: Object })
+  data: Object;
 
   @Prop()
   url: string;
