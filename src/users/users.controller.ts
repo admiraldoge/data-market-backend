@@ -63,12 +63,30 @@ export class UsersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    const baseResponse = newBaseResponse();
+    try {
+      baseResponse.data = await this.usersService.update(id, updateUserDto);
+    } catch (error) {
+      baseResponse.data = null;
+      baseResponse.success = false;
+      baseResponse.message = error.message;
+    } finally {
+      return baseResponse;
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  async remove(@Param('id') id: string) {
+    const baseResponse = newBaseResponse();
+    try {
+      baseResponse.data = await this.usersService.remove(id);
+    } catch (error) {
+      baseResponse.data = null;
+      baseResponse.success = false;
+      baseResponse.message = error.message;
+    } finally {
+      return baseResponse;
+    }
   }
 }

@@ -29,12 +29,22 @@ export class UsersService {
     return `This action returns a #${id} user`;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    Reflect.deleteProperty(updateUserDto, '_id');
+    const updateRequest = await this.userModel.findOneAndUpdate(
+      { _id: id },
+      updateUserDto,
+      { new: true },
+    );
+    return updateRequest;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  async remove(id: string) {
+    console.log('Deleting user: ', id);
+    const deleteRequest = await this.userModel.deleteOne({ _id: id });
+    return null;
   }
 
   async findOneByCredentials(credentials: { email: string; password: string }) {
