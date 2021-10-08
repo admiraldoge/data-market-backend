@@ -2,14 +2,26 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { SubmissionsService } from './submissions.service';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
 import { UpdateSubmissionDto } from './dto/update-submission.dto';
+import newBaseResponse from "../statics/baseResponse";
 
 @Controller('submissions')
 export class SubmissionsController {
   constructor(private readonly submissionsService: SubmissionsService) {}
 
   @Post()
-  create(@Body() createSubmissionDto: CreateSubmissionDto) {
-    return this.submissionsService.create(createSubmissionDto);
+  async create(@Body() createSubmissionDto: CreateSubmissionDto) {
+    const baseResponse = newBaseResponse();
+    try {
+      baseResponse.data = await this.submissionsService.create(
+        createSubmissionDto,
+      );
+    } catch (error) {
+      baseResponse.data = null;
+      baseResponse.success = false;
+      baseResponse.message = error.message;
+    } finally {
+      return baseResponse;
+    }
   }
 
   @Get()
