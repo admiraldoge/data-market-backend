@@ -36,4 +36,9 @@ export class UsersService {
   remove(id: number) {
     return `This action removes a #${id} user`;
   }
+
+  async findOneByCredentials(credentials: { email: string; password: string }) {
+    const items = await this.userModel.find(credentials).exec();
+    return items;
+  }
 }
