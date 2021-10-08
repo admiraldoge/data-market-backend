@@ -13,12 +13,6 @@ export class Form {
   @Prop({ type: stringSchema })
   name: StringSchema;
 
-  @Prop()
-  _creationTimeStamp: string;
-
-  @Prop()
-  _lastUpdateTimeStamp: string;
-
   @Prop({ type: imageSchema })
   thumbnail: ImageSchema;
 
@@ -27,9 +21,6 @@ export class Form {
 
   @Prop()
   tags: [];
-
-  @Prop()
-  shareUrls: [];
 
   @Prop()
   creatorId: string;

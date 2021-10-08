@@ -2,14 +2,23 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from "@nestjs/
 import { FormsService } from './forms.service';
 import { CreateFormDto } from './dto/create-form.dto';
 import { UpdateFormDto } from './dto/update-form.dto';
+import newBaseResponse from "../statics/baseResponse";
 
 @Controller('forms')
 export class FormsController {
   constructor(private readonly formsService: FormsService) {}
 
   @Post()
-  create(@Body() createFormDto: CreateFormDto) {
-    return this.formsService.create(createFormDto);
+  async create(@Body() createFormDto: CreateFormDto) {
+    const baseResponse = newBaseResponse();
+    try {
+      baseResponse.data = await this.formsService.create(createFormDto);
+    } catch (error) {
+      baseResponse.success = false;
+      baseResponse.message = error.toString();
+    } finally {
+      return baseResponse;
+    }
   }
 
   @Get()

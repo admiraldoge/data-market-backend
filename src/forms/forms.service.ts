@@ -9,10 +9,11 @@ import { Model } from 'mongoose';
 export class FormsService {
   constructor(@InjectModel(Form.name) private formModel: Model<FormDocument>) {}
 
-  create(createFormDto: CreateFormDto) {
+  async create(createFormDto: CreateFormDto) {
     const createdForm = new this.formModel(createFormDto);
-    createdForm.save();
-    return 'This action adds a new form';
+    const newEntity = await createdForm.save();
+    console.log('New form created: ', newEntity);
+    return newEntity;
   }
 
   findAll() {
