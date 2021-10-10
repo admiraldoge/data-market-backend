@@ -27,9 +27,9 @@ export class FormsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @Req() req) {
+  async findOne(@Param('id') id: string, @Req() req) {
     console.log('Cookies from form req: ', req.cookies);
-    return this.formsService.findOne(id);
+    return await this.formsService.findOne(id);
   }
 
   @Patch(':id')

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Query } from "@nestjs/common";
 import { CollectorsService } from './collectors.service';
 import { CreateCollectorDto } from './dto/create-collector.dto';
 import { UpdateCollectorDto } from './dto/update-collector.dto';
@@ -25,8 +25,21 @@ export class CollectorsController {
   }
 
   @Get()
-  findAll() {
-    return this.collectorsService.findAll();
+  async findAll(@Query() query) {
+    const { page, limit } = query;
+    const baseResponse = newBaseResponse();
+    try {
+      baseResponse.data = await this.collectorsService.findAll(
+        parseInt(page),
+        parseInt(limit),
+      );
+    } catch (error) {
+      baseResponse.data = null;
+      baseResponse.success = false;
+      baseResponse.message = error.message;
+    } finally {
+      return baseResponse;
+    }
   }
 
   @Get(':id')

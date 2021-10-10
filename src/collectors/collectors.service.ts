@@ -24,9 +24,21 @@ export class CollectorsService {
     return entity;
   }
 
-  findAll() {
-    return this.collectorModel.find().exec();
-    //return `This action returns all collectors`;
+  async findAll(page: number, limit: number) {
+    const items = await this.collectorModel
+      .find()
+      .skip(limit * (page - 1)) // we will not retrieve all records, but will skip first 'n' records
+      .limit(limit) // will limit/restrict the number of records to display
+      .exec();
+    const totalDocuments = await this.collectorModel.countDocuments();
+    for (let i = 0; i < items.length; i++) {
+      const form = await this.formsService.findOne(
+        items[i].formId,
+      );
+      items[i].form = form;
+    }
+    const res = { totalDocuments, items, page, limit };
+    return res;
   }
 
   async findOne(id: string, authToken: string) {
@@ -36,10 +48,10 @@ export class CollectorsService {
       typeof authToken,
     );
     //return `This action returns a #${id} collector`;
-    const form = await this.formsService.findOne(id);
     const collector = (await this.collectorModel
-      .find({ formId: id })
+      .find({ _id: id })
       .exec()) as any;
+    const form = await this.formsService.findOne(collector[0].formId);
     console.log('authToken', authToken, !authToken);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore

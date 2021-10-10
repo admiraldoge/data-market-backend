@@ -27,6 +27,9 @@ export class Collector {
 
   @Prop()
   public: boolean;
+
+  @Prop({ type: Object })
+  form: Object;
 }
 
 export const CollectorSchema = SchemaFactory.createForClass(Collector);
