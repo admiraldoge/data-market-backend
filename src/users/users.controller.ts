@@ -43,16 +43,18 @@ export class UsersController {
         credentials,
       );
       console.log('Base response', baseResponse);
-      res.cookie('authToken', 'a1m2a3n4d5a', {
-        expires: new Date(new Date().getTime() + 30 * 1000),
-        httpOnly: true,
-      });
-      res.set({
-        'Access-Control-Allow-Credentials': true,
-        'Access-Control-Allow-Origin': 'http://localhost:3000',
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-      });
+      if(baseResponse.data) {
+        res.cookie('authToken', 'a1m2a3n4d5a', {
+          expires: new Date(new Date().getTime() + 30 * 1000),
+          httpOnly: true,
+        });
+        res.set({
+          'Access-Control-Allow-Credentials': true,
+          'Access-Control-Allow-Origin': 'http://localhost:3000',
+          'Access-Control-Allow-Methods': 'POST',
+          'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+        });
+      }
     } catch (error) {
       baseResponse.success = false;
       baseResponse.message = error.toString();

@@ -49,6 +49,7 @@ export class UsersService {
 
   async findOneByCredentials(credentials: { email: string; password: string }) {
     const items = await this.userModel.find(credentials).exec();
-    return items;
+    if (items.length === 0) return false;
+    return items[0];
   }
 }
