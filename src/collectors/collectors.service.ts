@@ -18,10 +18,12 @@ export class CollectorsService {
     private readonly formsService: FormsService,
   ) {}
 
-  create(createCollectorDto: CreateCollectorDto) {
+  async create(createCollectorDto: CreateCollectorDto) {
     const entity = new this.collectorModel(createCollectorDto);
-    entity.save();
-    return entity;
+    const createdEntity = await entity.save();
+    createdEntity['url'] = `http://localhost:3000/c/${createdEntity._id}`;
+    await createdEntity.save();
+    return createdEntity;
   }
 
   async findAll(page: number, limit: number) {
