@@ -33,6 +33,9 @@ export class User {
 
   @Prop()
   companyId: Types.ObjectId;
+
+  @Prop({ default: 'USER' })
+  role: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

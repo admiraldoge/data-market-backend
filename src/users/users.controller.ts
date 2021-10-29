@@ -6,13 +6,16 @@ import {
   Patch,
   Param,
   Delete,
-  Query, Res
-} from "@nestjs/common";
+  Query,
+  Res,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import newBaseResponse from '../statics/baseResponse';
 import baseResponse from '../statics/baseResponse';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const jwt = require('jsonwebtoken');
 
 @Controller('users')
 export class UsersController {
@@ -43,8 +46,22 @@ export class UsersController {
         credentials,
       );
       console.log('Base response', baseResponse);
+      const generateJwtToken = async (user) => {
+        const token = jwt.sign(
+          {
+            sub: baseResponse.data._id,
+            role: baseResponse.data.role,
+            protocol: 'http',
+            type: 'normal',
+            exp: Math.floor(Date.now() / 1000) + 60 * 60 * 48,
+          },
+          'THIS_IS_A_TOKEN_KEY',
+        );
+        console.log("Token generated: ",token);
+        return token;
+      };
       if(baseResponse.data) {
-        res.cookie('authToken', 'a1m2a3n4d5a', {
+        res.cookie('authToken', await generateJwtToken(baseResponse), {
           expires: new Date(new Date().getTime() + 30 * 1000),
           httpOnly: true,
         });
