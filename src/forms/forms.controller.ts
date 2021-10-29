@@ -42,4 +42,17 @@ export class FormsController {
   remove(@Param('id') id: string) {
     return this.formsService.remove(+id);
   }
+
+  @Post(':id/clone')
+  async clone(@Param('id') id: string) {
+    const baseResponse = newBaseResponse();
+    try {
+      baseResponse.data = await this.formsService.clone(id);
+    } catch (error) {
+      baseResponse.success = false;
+      baseResponse.message = error.toString();
+    } finally {
+      return baseResponse;
+    }
+  }
 }

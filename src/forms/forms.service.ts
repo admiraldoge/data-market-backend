@@ -41,4 +41,14 @@ export class FormsService {
   remove(id: number) {
     return `This action removes a #${id} form`;
   }
+
+  async clone(id: string) {
+    const form = await this.formModel.findById(id).exec();
+    const clone = JSON.parse(JSON.stringify(form));
+    Reflect.deleteProperty(clone, '_id');
+    Reflect.deleteProperty(clone, '__v');
+    const createdForm = new this.formModel(form);
+    const newEntity = await createdForm.save();
+    return newEntity;
+  }
 }
