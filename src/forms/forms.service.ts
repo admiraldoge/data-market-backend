@@ -47,7 +47,8 @@ export class FormsService {
     const clone = JSON.parse(JSON.stringify(form));
     Reflect.deleteProperty(clone, '_id');
     Reflect.deleteProperty(clone, '__v');
-    const createdForm = new this.formModel(form);
+    //console.log('Form to clone',clone);
+    const createdForm = new this.formModel(clone);
     const newEntity = await createdForm.save();
     return newEntity;
   }
