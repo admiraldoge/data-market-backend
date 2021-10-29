@@ -27,6 +27,9 @@ export class Submission {
 
   @Prop({ type: Object })
   form: Object;
+
+  @Prop()
+  userId: string;
 }
 
 export const SubmissionSchema = SchemaFactory.createForClass(Submission);

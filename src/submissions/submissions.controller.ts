@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req } from "@nestjs/common";
 import { SubmissionsService } from './submissions.service';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
 import { UpdateSubmissionDto } from './dto/update-submission.dto';
@@ -9,11 +9,12 @@ export class SubmissionsController {
   constructor(private readonly submissionsService: SubmissionsService) {}
 
   @Post()
-  async create(@Body() createSubmissionDto: CreateSubmissionDto) {
+  async create(@Body() createSubmissionDto: CreateSubmissionDto, @Req() req) {
     const baseResponse = newBaseResponse();
     try {
       baseResponse.data = await this.submissionsService.create(
         createSubmissionDto,
+        req.cookies.authToken,
       );
     } catch (error) {
       baseResponse.data = null;

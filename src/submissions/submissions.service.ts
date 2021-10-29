@@ -5,6 +5,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Submission, SubmissionDocument } from './schemas/submission.schema';
 import { Model } from 'mongoose';
 import { FormsService } from '../forms/forms.service';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const jwt = require('jsonwebtoken');
 
 @Injectable()
 export class SubmissionsService {
@@ -14,9 +16,18 @@ export class SubmissionsService {
     private readonly formsService: FormsService,
   ) {}
 
-  create(createSubmissionDto: CreateSubmissionDto) {
-    console.log('Creating submission: ', createSubmissionDto);
-    const entity = new this.submissionModel(createSubmissionDto);
+  create(createSubmissionDto: CreateSubmissionDto, token: string) {
+    console.log('Creating submission: ', createSubmissionDto, token);
+    let userId;
+    try {
+      const decoded = jwt.verify(token, 'THIS_IS_A_TOKEN_KEY');
+      userId = decoded.sub;
+    } catch (e: any) {
+      console.log('Submission without user made');
+    } finally {
+      console.log('Submission without user made');
+    }
+    const entity = new this.submissionModel({ ...createSubmissionDto, userId });
     entity.save();
     return entity;
   }
