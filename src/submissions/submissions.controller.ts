@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from "@nestjs/common";
 import { SubmissionsService } from './submissions.service';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
 import { UpdateSubmissionDto } from './dto/update-submission.dto';
@@ -25,8 +25,21 @@ export class SubmissionsController {
   }
 
   @Get()
-  findAll() {
-    return this.submissionsService.findAll();
+  async findAll(@Query() query) {
+    const { page, limit } = query;
+    const baseResponse = newBaseResponse();
+    try {
+      baseResponse.data = await this.submissionsService.findAll(
+        parseInt(page),
+        parseInt(limit),
+      );
+    } catch (error) {
+      baseResponse.data = null;
+      baseResponse.success = false;
+      baseResponse.message = error.message;
+    } finally {
+      return baseResponse;
+    }
   }
 
   @Get(':id')

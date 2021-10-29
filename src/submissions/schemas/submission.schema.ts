@@ -21,6 +21,12 @@ export class Submission {
 
   @Prop()
   collectorId: string;
+
+  @Prop({ default: false })
+  submitted: boolean;
+
+  @Prop({ type: Object })
+  form: Object;
 }
 
 export const SubmissionSchema = SchemaFactory.createForClass(Submission);
