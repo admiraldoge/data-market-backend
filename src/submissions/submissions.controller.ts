@@ -27,12 +27,13 @@ export class SubmissionsController {
 
   @Get()
   async findAll(@Query() query) {
-    const { page, limit } = query;
+    const { page, limit, submitted } = query;
     const baseResponse = newBaseResponse();
     try {
       baseResponse.data = await this.submissionsService.findAll(
         parseInt(page),
         parseInt(limit),
+        submitted
       );
     } catch (error) {
       baseResponse.data = null;

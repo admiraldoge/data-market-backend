@@ -32,9 +32,9 @@ export class SubmissionsService {
     return entity;
   }
 
-  async findAll(page: number, limit: number) {
+  async findAll(page: number, limit: number, submitted: string) {
     const items = await this.submissionModel
-      .find()
+      .find({ submitted: submitted ? submitted === 'true' : true })
       .skip(limit * (page - 1)) // we will not retrieve all records, but will skip first 'n' records
       .limit(limit) // will limit/restrict the number of records to display
       .exec();
