@@ -7,6 +7,7 @@ import { FormsModule } from './forms/forms.module';
 import { CompaniesModule } from './companies/companies.module';
 import { CollectorsModule } from './collectors/collectors.module';
 import { SubmissionsModule } from './submissions/submissions.module';
+import { ReportsModule } from './reports/reports.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { SubmissionsModule } from './submissions/submissions.module';
     CompaniesModule,
     CollectorsModule,
     SubmissionsModule,
+    ReportsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
