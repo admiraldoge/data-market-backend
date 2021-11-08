@@ -8,6 +8,7 @@ import { CompaniesModule } from './companies/companies.module';
 import { CollectorsModule } from './collectors/collectors.module';
 import { SubmissionsModule } from './submissions/submissions.module';
 import { ReportsModule } from './reports/reports.module';
+import { CsvReportsModule } from './csv-reports/csv-reports.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ReportsModule } from './reports/reports.module';
     CollectorsModule,
     SubmissionsModule,
     ReportsModule,
+    CsvReportsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
