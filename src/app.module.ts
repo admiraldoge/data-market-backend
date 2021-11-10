@@ -9,6 +9,7 @@ import { CollectorsModule } from './collectors/collectors.module';
 import { SubmissionsModule } from './submissions/submissions.module';
 import { ReportsModule } from './reports/reports.module';
 import { CsvReportsModule } from './csv-reports/csv-reports.module';
+import { MetaDataModule } from './meta-data/meta-data.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CsvReportsModule } from './csv-reports/csv-reports.module';
     SubmissionsModule,
     ReportsModule,
     CsvReportsModule,
+    MetaDataModule,
   ],
   controllers: [AppController],
   providers: [AppService],
