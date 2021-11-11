@@ -32,7 +32,7 @@ export class SubmissionsService {
     return entity;
   }
 
-  async findAll(page: number, limit: number, submitted: string) {
+  async findAllPaginated(page: number, limit: number, submitted: string) {
     const items = await this.submissionModel
       .find({ submitted: submitted ? submitted === 'true' : true })
       .skip(limit * (page - 1)) // we will not retrieve all records, but will skip first 'n' records
@@ -47,6 +47,11 @@ export class SubmissionsService {
     }
     const res = { totalDocuments, items, page, limit };
     return res;
+  }
+
+  async find(query) {
+    const items = await this.submissionModel.find(query);
+    return items;
   }
 
   findOne(id: number) {

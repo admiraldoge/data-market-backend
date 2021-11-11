@@ -14,5 +14,6 @@ import { FormsModule } from '../forms/forms.module';
   ],
   controllers: [SubmissionsController],
   providers: [SubmissionsService],
+  exports: [SubmissionsService],
 })
 export class SubmissionsModule {}

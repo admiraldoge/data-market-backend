@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req } from "@
 import { SubmissionsService } from './submissions.service';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
 import { UpdateSubmissionDto } from './dto/update-submission.dto';
-import newBaseResponse from "../statics/baseResponse";
+import newBaseResponse from '../statics/baseResponse';
 
 @Controller('submissions')
 export class SubmissionsController {
@@ -30,7 +30,7 @@ export class SubmissionsController {
     const { page, limit, submitted } = query;
     const baseResponse = newBaseResponse();
     try {
-      baseResponse.data = await this.submissionsService.findAll(
+      baseResponse.data = await this.submissionsService.findAllPaginated(
         parseInt(page),
         parseInt(limit),
         submitted

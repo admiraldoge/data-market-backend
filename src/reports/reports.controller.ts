@@ -31,4 +31,9 @@ export class ReportsController {
   remove(@Param('id') id: string) {
     return this.reportsService.remove(+id);
   }
+
+  @Get('/collectors/:id/submissions')
+  async getCollectorSubmission(@Param('id') id: string) {
+    return this.reportsService.collectorSubmissions(id);
+  }
 }
