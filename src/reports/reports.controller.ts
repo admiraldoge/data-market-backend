@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ReportsService } from './reports.service';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
+import newBaseResponse from '../statics/baseResponse';
 
 @Controller('reports')
 export class ReportsController {
@@ -34,6 +35,14 @@ export class ReportsController {
 
   @Get('/collectors/:id/submissions')
   async getCollectorSubmission(@Param('id') id: string) {
-    return this.reportsService.collectorSubmissions(id);
+    const baseResponse = newBaseResponse();
+    try {
+      baseResponse.data = await this.reportsService.collectorSubmissions(id);
+    } catch (error) {
+      baseResponse.success = false;
+      baseResponse.message = error.toString();
+    } finally {
+      return baseResponse;
+    }
   }
 }

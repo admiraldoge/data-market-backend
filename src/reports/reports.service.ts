@@ -33,9 +33,12 @@ export class ReportsService {
     const items = await this.submissionService.find({ collectorId });
     const submissionData = [];
     const data = {};
+    let total = 0;
+    let datesCounter = 0;
     items.forEach((item: any) => {
       const date = new Date(item.createdAt);
       const dateString = date.toISOString().slice(0, 10);
+      total++;
       if (data[dateString]) {
         data[dateString]++;
       } else {
@@ -43,11 +46,16 @@ export class ReportsService {
       }
     });
     for (const [key, value] of Object.entries(data)) {
+      datesCounter++;
       submissionData.push({
         x: key,
         value: value,
       });
     }
-    return [{ id: 'Envíos', data: submissionData }];
+    return {
+      total: total,
+      timeLine: [{ id: 'Envíos', data: submissionData }],
+      average: total / datesCounter,
+    };
   }
 }

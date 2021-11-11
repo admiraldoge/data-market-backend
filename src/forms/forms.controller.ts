@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from "@nestjs/
 import { FormsService } from './forms.service';
 import { CreateFormDto } from './dto/create-form.dto';
 import { UpdateFormDto } from './dto/update-form.dto';
-import newBaseResponse from "../statics/baseResponse";
+import newBaseResponse from '../statics/baseResponse';
 
 @Controller('forms')
 export class FormsController {
