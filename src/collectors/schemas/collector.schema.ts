@@ -30,6 +30,9 @@ export class Collector {
 
   @Prop({ type: Object })
   form: Object;
+
+  @Prop()
+  userId: string;
 }
 
 export const CollectorSchema = SchemaFactory.createForClass(Collector);
