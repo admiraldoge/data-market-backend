@@ -45,4 +45,17 @@ export class ReportsController {
       return baseResponse;
     }
   }
+
+  @Get('/users/:id')
+  async getUserActivity(@Param('id') id: string) {
+    const baseResponse = newBaseResponse();
+    try {
+      baseResponse.data = await this.reportsService.userActivity(id);
+    } catch (error) {
+      baseResponse.success = false;
+      baseResponse.message = error.toString();
+    } finally {
+      return baseResponse;
+    }
+  }
 }

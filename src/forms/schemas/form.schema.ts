@@ -2,6 +2,7 @@ import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId } from 'mongoose';
 import { ImageSchema, imageSchema } from '../../schemas/ImageSchema';
 import { StringSchema, stringSchema } from '../../schemas/StringSchema';
+import { NumberSchema, numberSchema } from '../../schemas/NumberSchema';
 import { ArraySchema, arraySchema } from '../../schemas/ArraySchema';
 
 export type FormDocument = Form & Document;
@@ -30,6 +31,9 @@ export class Form {
 
   @Prop()
   isCompleted: boolean;
+
+  @Prop({ type: numberSchema })
+  points: NumberSchema;
 }
 
 export const FormSchema = SchemaFactory.createForClass(Form);

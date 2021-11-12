@@ -11,6 +11,7 @@ export class FormsService {
 
   async create(createFormDto: CreateFormDto) {
     const createdForm = new this.formModel(createFormDto);
+    console.log('Created form: ',createdForm);
     const newEntity = await createdForm.save();
     console.log('New form created: ', newEntity);
     return newEntity;
@@ -51,5 +52,10 @@ export class FormsService {
     const createdForm = new this.formModel(clone);
     const newEntity = await createdForm.save();
     return newEntity;
+  }
+
+  async find(query) {
+    const forms = await this.formModel.find(query);
+    return forms;
   }
 }

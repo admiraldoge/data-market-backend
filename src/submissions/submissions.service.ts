@@ -16,18 +16,26 @@ export class SubmissionsService {
     private readonly formsService: FormsService,
   ) {}
 
-  create(createSubmissionDto: CreateSubmissionDto, token: string) {
+  async create(createSubmissionDto: CreateSubmissionDto, token: string) {
     console.log('Creating submission: ', createSubmissionDto, token);
     let userId;
+    let points = 0;
     try {
       const decoded = jwt.verify(token, 'THIS_IS_A_TOKEN_KEY');
       userId = decoded.sub;
+      console.log("User id: ",userId);
     } catch (e: any) {
-      console.log('Submission without user made');
+      console.log('Submission without user made: ', e.toString());
     } finally {
+      const form = await this.formsService.findOne(createSubmissionDto.formId);
+      points = form.points.value;
       console.log('Submission without user made');
     }
-    const entity = new this.submissionModel({ ...createSubmissionDto, userId });
+    const entity = new this.submissionModel({
+      ...createSubmissionDto,
+      userId,
+      points,
+    });
     entity.save();
     return entity;
   }

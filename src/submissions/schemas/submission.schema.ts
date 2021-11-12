@@ -30,6 +30,9 @@ export class Submission {
 
   @Prop()
   userId: string;
+
+  @Prop()
+  points: number;
 }
 
 export const SubmissionSchema = SchemaFactory.createForClass(Submission);
