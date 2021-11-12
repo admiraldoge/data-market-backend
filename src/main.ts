@@ -5,7 +5,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  const whitelist = ['http://localhost:3000', 'http://143.110.239.224:3000'];
   const config = new DocumentBuilder()
     .setTitle('Data Market')
     .setDescription('This is the documentation for Data Market APIs')
@@ -16,7 +16,16 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.use(cookieParser());
-  app.enableCors({ origin: 'http://localhost:3000', credentials: true });
+  app.enableCors({
+    origin: function (origin, callback) {
+      if (!origin || whitelist.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+  });
   await app.listen(8080);
 }
 bootstrap();

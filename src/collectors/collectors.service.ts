@@ -31,7 +31,7 @@ export class CollectorsService {
     collector.creatorRole = auth.role;
     const entity = new this.collectorModel(collector);
     const createdEntity = await entity.save();
-    createdEntity['url'] = `http://localhost:3000/c/${createdEntity._id}`;
+    createdEntity['url'] = `${process.env.FRONT_END_HOST}/c/${createdEntity._id}`;
     await createdEntity.save();
     return createdEntity;
   }

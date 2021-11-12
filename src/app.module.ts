@@ -11,9 +11,11 @@ import { ReportsModule } from "./reports/reports.module";
 import { CsvReportsModule } from "./csv-reports/csv-reports.module";
 import { MetaDataModule } from "./meta-data/meta-data.module";
 import { AuthenticationMiddleware } from "./common/middleware/authentication.middleware";
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     MongooseModule.forRoot(
       'mongodb://root:root@localhost:27017/data_market_db?authSource=admin&authMechanism=DEFAULT'
     ),

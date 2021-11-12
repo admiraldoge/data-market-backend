@@ -66,9 +66,19 @@ export class UsersController {
           httpOnly: true,
           sameSite: 'strict',
         });
+        res.cookie('userId', baseResponse.data._id, {
+          maxAge: 18000000,
+          httpOnly: false,
+          sameSite: 'strict',
+        });
+        res.cookie('role', baseResponse.data.role, {
+          maxAge: 18000000,
+          httpOnly: false,
+          sameSite: 'strict',
+        });
         res.set({
           'Access-Control-Allow-Credentials': true,
-          'Access-Control-Allow-Origin': 'http://localhost:3000',
+          'Access-Control-Allow-Origin': process.env.FRONT_END_HOST,
           'Access-Control-Allow-Methods': 'POST',
           'Access-Control-Allow-Headers': 'Content-Type,Authorization',
         });
