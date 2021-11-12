@@ -56,7 +56,7 @@ export class ReportsService {
       datesCounter++;
       submissionData.push({
         x: key,
-        value: value,
+        y: value,
       });
     }
     return {
@@ -113,20 +113,20 @@ export class ReportsService {
       datesCounter++;
       submissionData.push({
         x: key,
-        value: value,
+        y: value,
       });
     }
     for (const [key, value] of Object.entries(pointsData)) {
       pointsCoordinates.push({
         x: key,
-        value: value,
+        y: value,
       });
     }
 
     for (const [key, value] of Object.entries(referralPointsData)) {
       referralPointsCoordinates.push({
         x: key,
-        value: value,
+        y: value,
       });
     }
     return {

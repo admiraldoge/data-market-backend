@@ -5,7 +5,11 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const whitelist = ['http://localhost:3000', 'http://143.110.239.224:3000'];
+  const whitelist = [
+    'http://localhost:3000',
+    'http://143.110.239.224:3000',
+    'http://localhost:8080',
+  ];
   const config = new DocumentBuilder()
     .setTitle('Data Market')
     .setDescription('This is the documentation for Data Market APIs')

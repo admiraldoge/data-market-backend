@@ -64,12 +64,12 @@ export class UsersController {
         res.cookie('authToken', await generateJwtToken(baseResponse), {
           maxAge: 18000000,
           httpOnly: true,
-          sameSite: 'strict',
+          sameSite: 'lax',
         });
         res.cookie('userId', baseResponse.data._id, {
           maxAge: 18000000,
           httpOnly: false,
-          sameSite: 'strict',
+          sameSite: 'lax',
         });
         res.cookie('role', baseResponse.data.role, {
           maxAge: 18000000,
