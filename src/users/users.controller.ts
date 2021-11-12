@@ -64,6 +64,7 @@ export class UsersController {
         res.cookie('authToken', await generateJwtToken(baseResponse), {
           maxAge: 18000000,
           httpOnly: true,
+          sameSite: 'none',
         });
         res.set({
           'Access-Control-Allow-Credentials': true,
