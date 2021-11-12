@@ -22,7 +22,7 @@ export class FormsService {
   }
 
   async findOne(id: string) {
-    console.log('Looking for form: ',id);
+    //console.log('Looking for form: ',id);
     return await this.formModel.findById(id).exec();
   }
 

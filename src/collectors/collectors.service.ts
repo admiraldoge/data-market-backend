@@ -37,11 +37,20 @@ export class CollectorsService {
   }
 
   async findAll(page: number, limit: number, auth: any) {
-    const items = await this.collectorModel
-      .find({ public: true, referralUserId: { $ne: auth.userId } })
-      .skip(limit * (page - 1)) // we will not retrieve all records, but will skip first 'n' records
-      .limit(limit) // will limit/restrict the number of records to display
-      .exec();
+    let items = [];
+    if (auth.role === 'ADMIN') {
+      items = await this.collectorModel
+        .find({ userId: auth.userId })
+        .skip(limit * (page - 1)) // we will not retrieve all records, but will skip first 'n' records
+        .limit(limit) // will limit/restrict the number of records to display
+        .exec();
+    } else {
+      items = await this.collectorModel
+        .find({ public: true, referralUserId: { $ne: auth.userId } })
+        .skip(limit * (page - 1)) // we will not retrieve all records, but will skip first 'n' records
+        .limit(limit) // will limit/restrict the number of records to display
+        .exec();
+    }
     const totalDocuments = await this.collectorModel.countDocuments();
     //console.log('collector found: ',items);
     for (let i = 0; i < items.length; i++) {
@@ -61,13 +70,13 @@ export class CollectorsService {
     );
     //return `This action returns a #${id} collector`;
     const collector = (await this.collectorModel
-      .find({ _id: id })
+      .findById(id)
       .exec()) as any;
-    const form = await this.formsService.findOne(collector[0].formId);
+    const form = await this.formsService.findOne(collector.formId);
     console.log('authToken', authToken, !authToken);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
-    if (!collector[0].public && !authToken) {
+    if (!collector.public && !authToken) {
       throw new Error('Form is private and not auth token provided.');
     }
     return { collector: collector, form };
