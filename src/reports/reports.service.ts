@@ -5,12 +5,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { SubmissionsService } from '../submissions/submissions.service';
 import { FormsService } from '../forms/forms.service';
+import { Parser } from 'json2csv';
+import { CollectorsService } from '../collectors/collectors.service';
 
 @Injectable()
 export class ReportsService {
   constructor(
     private readonly submissionService: SubmissionsService,
     private readonly formsService: FormsService,
+    private readonly collectorsService: CollectorsService,
   ) {}
 
   create(createReportDto: CreateReportDto) {
@@ -145,5 +148,43 @@ export class ReportsService {
         ],
       },
     };
+  }
+  async generateSubmissionsCSVFile(collectorId: string) {
+    const submissions = await this.submissionService.find({ collectorId });
+    const collector = await this.collectorsService.findOne(collectorId);
+    const form = await this.formsService.findOne(collector.formId);
+    console.log('Form: ',form);
+    const fields = [];
+    form.fields.items.forEach((item: any) => {
+      fields.push({
+        label: item.label.value,
+        value: item._id,
+      });
+    });
+    const docs = [];
+    submissions.forEach((item: any) => {
+      for (const [key, value] of Object.entries(submissions)) {
+
+      }
+      docs.push(item.data);
+    });
+
+    console.log('Fields', fields);
+    const opts = { fields };
+    /*const fields = fieldsMapWithLabels[type];
+    const opts = { fields };
+    const docs = await db.getInstance().collection(collectionName).find({type: type}).sort( [['_id', -1]] ).toArray();
+    */
+    try {
+      const parser = new Parser(opts);
+      const csv = parser.parse(docs);
+      return {
+        collectorName: collector.name,
+        csv,
+      };
+    } catch (err) {
+      console.error('Error downloading csv'+err);
+      throw new Error('Error downloading csv' + err);
+    }
   }
 }

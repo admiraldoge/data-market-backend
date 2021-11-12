@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from "@nestjs/common";
 import { ReportsService } from './reports.service';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
@@ -51,6 +51,26 @@ export class ReportsController {
     const baseResponse = newBaseResponse();
     try {
       baseResponse.data = await this.reportsService.userActivity(id);
+    } catch (error) {
+      baseResponse.success = false;
+      baseResponse.message = error.toString();
+    } finally {
+      return baseResponse;
+    }
+  }
+
+  @Get('/collectors/:id/submissions/csv')
+  async getCollectorSubmissionsCSV(@Param('id') id: string, @Res() res) {
+    const baseResponse = newBaseResponse();
+    try {
+      const { csv, collectorName } =
+        await this.reportsService.generateSubmissionsCSVFile(id);
+      res.setHeader(
+        'Content-disposition',
+        `attachment; filename=${collectorName}.csv`,
+      );
+      res.set('Content-Type', 'text/csv');
+      res.send(csv);
     } catch (error) {
       baseResponse.success = false;
       baseResponse.message = error.toString();

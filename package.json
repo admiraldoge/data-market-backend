@@ -28,6 +28,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/swagger": "^5.1.4",
     "cookie-parser": "^1.4.5",
+    "json2csv": "^5.0.6",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.7",
     "reflect-metadata": "^0.1.13",
