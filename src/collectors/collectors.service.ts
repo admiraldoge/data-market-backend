@@ -34,7 +34,7 @@ export class CollectorsService {
     return createdEntity;
   }
 
-  async findAll(page: number, limit: number, auth: any) {
+  async findAll(page: number, limit: number) {
     const items = await this.collectorModel
       .find()
       .skip(limit * (page - 1)) // we will not retrieve all records, but will skip first 'n' records
