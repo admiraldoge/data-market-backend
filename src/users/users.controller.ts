@@ -62,7 +62,7 @@ export class UsersController {
       };
       if(baseResponse.data) {
         res.cookie('authToken', await generateJwtToken(baseResponse), {
-          expires: new Date(new Date().getTime() + 30 * 1000),
+          maxAge: 18000000,
           httpOnly: true,
         });
         res.set({
