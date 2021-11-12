@@ -32,7 +32,13 @@ export class Submission {
   userId: string;
 
   @Prop()
-  points: number;
+  fillPoints: number;
+
+  @Prop()
+  referralPoints: number;
+
+  @Prop()
+  referralUserId: string;
 }
 
 export const SubmissionSchema = SchemaFactory.createForClass(Submission);

@@ -14,5 +14,6 @@ import { FormsModule } from '../forms/forms.module';
   ],
   controllers: [CollectorsController],
   providers: [CollectorsService],
+  exports: [CollectorsService],
 })
 export class CollectorsModule {}

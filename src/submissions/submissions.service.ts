@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Submission, SubmissionDocument } from './schemas/submission.schema';
 import { Model } from 'mongoose';
 import { FormsService } from '../forms/forms.service';
+import { CollectorsService } from '../collectors/collectors.service';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const jwt = require('jsonwebtoken');
 
@@ -14,12 +15,15 @@ export class SubmissionsService {
     @InjectModel(Submission.name)
     private submissionModel: Model<SubmissionDocument>,
     private readonly formsService: FormsService,
+    private readonly collectorService: CollectorsService,
   ) {}
 
   async create(createSubmissionDto: CreateSubmissionDto, token: string) {
     console.log('Creating submission: ', createSubmissionDto, token);
     let userId;
-    let points = 0;
+    let fillPoints = 0;
+    let referralPoints = 0;
+    let referralUserId;
     try {
       const decoded = jwt.verify(token, 'THIS_IS_A_TOKEN_KEY');
       userId = decoded.sub;
@@ -27,14 +31,25 @@ export class SubmissionsService {
     } catch (e: any) {
       console.log('Submission without user made: ', e.toString());
     } finally {
-      const form = await this.formsService.findOne(createSubmissionDto.formId);
-      points = form.points.value;
+      const collector = await this.collectorService.findOne(
+        createSubmissionDto.collectorId,
+      );
+      console.log('Collector of submission:',collector);
+      fillPoints = collector.fillPoints.value;
+
+      if (userId) {
+        //logged users fill the form
+        referralUserId = collector.referralUserId;
+        referralPoints = collector.sharePoints.value;
+      }
       console.log('Submission without user made');
     }
     const entity = new this.submissionModel({
       ...createSubmissionDto,
       userId,
-      points,
+      fillPoints,
+      referralPoints,
+      referralUserId,
     });
     entity.save();
     return entity;

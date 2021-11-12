@@ -9,11 +9,12 @@ export class CollectorsController {
   constructor(private readonly collectorsService: CollectorsService) {}
 
   @Post()
-  async create(@Body() createCollectorDto: CreateCollectorDto) {
+  async create(@Body() createCollectorDto: CreateCollectorDto, @Req() req) {
     const baseResponse = newBaseResponse();
     try {
       baseResponse.data = await this.collectorsService.create(
         createCollectorDto,
+        req.cookies.authToken,
       );
     } catch (error) {
       baseResponse.data = null;
@@ -46,7 +47,7 @@ export class CollectorsController {
   async findOne(@Param('id') id: string, @Req() req) {
     const baseResponse = newBaseResponse();
     try {
-      baseResponse.data = await this.collectorsService.findOne(id, req.cookies.authToken);
+      baseResponse.data = await this.collectorsService.findOneAuthenticated(id, req.cookies.authToken);
     } catch (error) {
       baseResponse.data = null;
       baseResponse.success = false;

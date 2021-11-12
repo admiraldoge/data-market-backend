@@ -1,1 +1,4 @@
-export class CreateCollectorDto {}
+export class CreateCollectorDto {
+  creatorRole: any;
+  referralUserId: any;
+}

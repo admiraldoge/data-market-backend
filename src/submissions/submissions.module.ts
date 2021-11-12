@@ -4,6 +4,7 @@ import { SubmissionsController } from './submissions.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Submission, SubmissionSchema } from './schemas/submission.schema';
 import { FormsModule } from '../forms/forms.module';
+import { CollectorsModule } from "../collectors/collectors.module";
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { FormsModule } from '../forms/forms.module';
       { name: Submission.name, schema: SubmissionSchema },
     ]),
     FormsModule,
+    CollectorsModule,
   ],
   controllers: [SubmissionsController],
   providers: [SubmissionsService],

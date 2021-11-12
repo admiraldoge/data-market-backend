@@ -3,6 +3,7 @@ import { Document, ObjectId } from 'mongoose';
 import { ImageSchema, imageSchema } from '../../schemas/ImageSchema';
 import { StringSchema, stringSchema } from '../../schemas/StringSchema';
 import { ArraySchema, arraySchema } from '../../schemas/ArraySchema';
+import { NumberSchema, numberSchema } from "../../schemas/NumberSchema";
 
 export type CollectorDocument = Collector & Document;
 
@@ -32,7 +33,16 @@ export class Collector {
   form: Object;
 
   @Prop()
-  userId: string;
+  creatorRole: string;
+
+  @Prop()
+  referralUserId: string;
+
+  @Prop({ type: numberSchema })
+  fillPoints: NumberSchema;
+
+  @Prop({ type: numberSchema })
+  sharePoints: NumberSchema;
 }
 
 export const CollectorSchema = SchemaFactory.createForClass(Collector);

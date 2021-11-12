@@ -9,6 +9,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { FormsService } from '../forms/forms.service';
+import decodeJWT from '../utils/jwtDecoder';
 
 @Injectable()
 export class CollectorsService {
@@ -18,32 +19,39 @@ export class CollectorsService {
     private readonly formsService: FormsService,
   ) {}
 
-  async create(createCollectorDto: CreateCollectorDto) {
-    const entity = new this.collectorModel(createCollectorDto);
+  async create(createCollectorDto: CreateCollectorDto, authToken: string) {
+    const auth = decodeJWT(authToken);
+    console.log('Authentication ', auth);
+    const collector = createCollectorDto;
+    if (auth.role === 'USER') {
+      collector.referralUserId = auth.userId;
+    }
+    collector.creatorRole = auth.role;
+    const entity = new this.collectorModel(collector);
     const createdEntity = await entity.save();
     createdEntity['url'] = `http://localhost:3000/c/${createdEntity._id}`;
     await createdEntity.save();
     return createdEntity;
   }
 
-  async findAll(page: number, limit: number) {
+  async findAll(page: number, limit: number, auth: any) {
     const items = await this.collectorModel
       .find()
       .skip(limit * (page - 1)) // we will not retrieve all records, but will skip first 'n' records
       .limit(limit) // will limit/restrict the number of records to display
       .exec();
     const totalDocuments = await this.collectorModel.countDocuments();
+    //console.log('collector found: ',items);
     for (let i = 0; i < items.length; i++) {
-      const form = await this.formsService.findOne(
-        items[i].formId,
-      );
+      const form = await this.formsService.findOne(items[i].formId);
+      //console.log('Form of item: ',form);
       items[i].form = form;
     }
     const res = { totalDocuments, items, page, limit };
     return res;
   }
 
-  async findOne(id: string, authToken: string) {
+  async findOneAuthenticated(id: string, authToken: string) {
     console.log(
       'Access to colelctor with token: ',
       authToken,
@@ -61,6 +69,18 @@ export class CollectorsService {
       throw new Error('Form is private and not auth token provided.');
     }
     return { collector: collector, form };
+  }
+
+  async findOne(id: string) {
+    const collector = (await this.collectorModel
+      .findById( id )
+      .exec()) as any;
+    return collector;
+  }
+
+  async find(query) {
+    const items = await this.collectorModel.find(query);
+    return items;
   }
 
   update(id: number, updateCollectorDto: UpdateCollectorDto) {

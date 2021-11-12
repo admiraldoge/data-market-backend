@@ -31,9 +31,6 @@ export class Form {
 
   @Prop()
   isCompleted: boolean;
-
-  @Prop({ type: numberSchema })
-  points: NumberSchema;
 }
 
 export const FormSchema = SchemaFactory.createForClass(Form);

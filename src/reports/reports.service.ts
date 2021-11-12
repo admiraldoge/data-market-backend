@@ -65,25 +65,45 @@ export class ReportsService {
 
   async userActivity(userId: string) {
     const items = await this.submissionService.find({ userId });
+    const referralItems = await this.submissionService.find({
+      referralUserId: userId,
+    });
     const submissionData = [];
     const pointsCoordinates = [];
+    const referralPointsCoordinates = [];
     let totalPoints = 0;
+    let totalReferralPoints = 0;
     const data = {};
     const pointsData = {};
+    const referralPointsData = {};
     let total = 0;
     let datesCounter = 0;
     items.forEach((item: any) => {
       const date = new Date(item.createdAt);
       const dateString = date.toISOString().slice(0, 10);
       total++;
-      totalPoints += item.points;
+      totalPoints += item.fillPoints;
       //Submissions
       if (data[dateString]) {
         data[dateString]++;
-        pointsData[dateString] += item.points;
       } else {
         data[dateString] = 1;
-        pointsData[dateString] = item.points;
+      }
+      if (pointsData[dateString]) {
+        pointsData[dateString] += item.fillPoints;
+      } else {
+        pointsData[dateString] = item.fillPoints;
+      }
+    });
+    referralItems.forEach((item: any) => {
+      const date = new Date(item.createdAt);
+      const dateString = date.toISOString().slice(0, 10);
+      totalReferralPoints += item.referralPoints;
+      //Submissions
+      if (referralPointsData[dateString]) {
+        referralPointsData[dateString] += item.referralPoints;
+      } else {
+        referralPointsData[dateString] = item.referralPoints;
       }
     });
     for (const [key, value] of Object.entries(data)) {
@@ -99,6 +119,13 @@ export class ReportsService {
         value: value,
       });
     }
+
+    for (const [key, value] of Object.entries(referralPointsData)) {
+      referralPointsCoordinates.push({
+        x: key,
+        value: value,
+      });
+    }
     return {
       submissions: {
         total: total,
@@ -109,6 +136,13 @@ export class ReportsService {
         total: totalPoints,
         average: totalPoints / datesCounter,
         points: [{ id: 'Puntos', data: pointsCoordinates }],
+      },
+      referralPoints: {
+        total: totalReferralPoints,
+        average: totalReferralPoints / datesCounter,
+        points: [
+          { id: 'Puntos por referencia', data: referralPointsCoordinates },
+        ],
       },
     };
   }
