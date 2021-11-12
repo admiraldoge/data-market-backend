@@ -25,6 +25,8 @@ export class CollectorsService {
     const collector = createCollectorDto;
     if (auth.role === 'USER') {
       collector.referralUserId = auth.userId;
+    } else {
+      collector.userId = auth.userId;
     }
     collector.creatorRole = auth.role;
     const entity = new this.collectorModel(collector);
@@ -34,9 +36,9 @@ export class CollectorsService {
     return createdEntity;
   }
 
-  async findAll(page: number, limit: number) {
+  async findAll(page: number, limit: number, auth: any) {
     const items = await this.collectorModel
-      .find()
+      .find({ public: true, referralUserId: { $ne: auth.userId } })
       .skip(limit * (page - 1)) // we will not retrieve all records, but will skip first 'n' records
       .limit(limit) // will limit/restrict the number of records to display
       .exec();

@@ -26,13 +26,14 @@ export class CollectorsController {
   }
 
   @Get()
-  async findAll(@Query() query) {
+  async findAll(@Query() query, @Req() req) {
     const { page, limit } = query;
     const baseResponse = newBaseResponse();
     try {
       baseResponse.data = await this.collectorsService.findAll(
         parseInt(page),
         parseInt(limit),
+        req.auth,
       );
     } catch (error) {
       baseResponse.data = null;

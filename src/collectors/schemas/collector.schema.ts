@@ -33,6 +33,9 @@ export class Collector {
   form: Object;
 
   @Prop()
+  userId: string;
+
+  @Prop()
   creatorRole: string;
 
   @Prop()
