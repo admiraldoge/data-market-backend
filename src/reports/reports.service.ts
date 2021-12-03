@@ -187,4 +187,43 @@ export class ReportsService {
       throw new Error('Error downloading csv' + err);
     }
   }
+
+  async formReport(formId: string) {
+    const items = await this.submissionService.find({ formId });
+    const collectors = await this.collectorsService.find({});
+    const collectorMap = {};
+    collectors.forEach((item) => {
+      collectorMap[item.id] = item;
+    });
+    console.log('CollectorMap', collectorMap);
+    const barData = [];
+    const data = {} as any;
+    let total = 0;
+    let datesCounter = 0;
+    let totalSubmissions = 0;
+    items.forEach((item: any) => {
+      totalSubmissions++;
+      if (data[item.collectorId]) {
+        data[item.collectorId].push(item);
+      } else {
+        data[item.collectorId] = [item];
+      }
+    });
+    console.log('Data: ',data);
+    for (const [key, value] of Object.entries(data)) {
+      if(collectorMap[key] === undefined) continue;
+      total++;
+      const aux = value as any;
+      datesCounter++;
+      barData.push({
+        collector: collectorMap[key].name,
+        submissions: aux.length,
+      });
+    }
+    return {
+      total: total,
+      barData: barData,
+      average: totalSubmissions / total,
+    };
+  }
 }

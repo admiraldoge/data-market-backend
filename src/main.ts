@@ -22,7 +22,9 @@ async function bootstrap() {
   app.use(cookieParser());
   app.enableCors({
     origin: function (origin, callback) {
+      console.log('Allowed origin: ',origin);
       if (!origin || whitelist.indexOf(origin) !== -1) {
+        console.log('Allowed origin: ',origin);
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
